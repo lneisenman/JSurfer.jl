@@ -1,11 +1,17 @@
 module JSurfer
 
-export Surface, readsurface
+export Brain, Surface, loadbrain, readsurface
 
 struct Surface
     vertices::Array{Float32, 2}
     faces::Array{Int32, 2}
     stamp::String
+end
+
+
+struct Brain
+    lh::Surface
+    rh::Surface
 end
 
 
@@ -50,6 +56,15 @@ function readsurface(fn)
     end
 
     return Surface(coords, faces, stamp)
+end
+
+
+function loadbrain(subjects_dir::AbstractString, subject::AbstractString)
+    lhfile = joinpath((subjects_dir, subject, "surf", "lh.pial"))
+    lh = readsurface(lhfile)
+    rhfile = joinpath((subjects_dir, subject, "surf", "rh.pial"))
+    rh = readsurface(rhfile)
+    return Brain(lh, rh)
 end
 
 end

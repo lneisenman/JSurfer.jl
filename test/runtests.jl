@@ -10,3 +10,8 @@ using Test, TestItems
     surf = readsurface(fn)
     @test size(surf.vertices) == (147886, 3)
 end
+
+@testitem "test loadbrain" begin
+    brain = loadbrain("/mnt/Active/SEEG/subjects", "LNE_2021")
+    @test size(brain.lh.vertices) == (147886, 3)
+end
