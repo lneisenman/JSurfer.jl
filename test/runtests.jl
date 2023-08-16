@@ -5,13 +5,21 @@ using Test, TestItems
 #     # Write your tests here.
 # end
 
-@testitem "test readsurface" begin
+@testitem "test read_surface" begin
     fn = "/mnt/Active/SEEG/subjects/LNE_2021/surf/lh.pial"
-    surf = readsurface(fn)
-    @test size(surf.vertices) == (147886, 3)
+    vertices, faces, stamp = read_surface(fn)
+    @test size(vertices) == (147886, 3)
+    @test size(faces) == (295768, 3)
 end
 
-@testitem "test loadbrain" begin
-    brain = loadbrain("/mnt/Active/SEEG/subjects", "LNE_2021")
+@testitem "test read_curv" begin
+    fn = "/mnt/Active/SEEG/subjects/LNE_2021/surf/lh.curv.pial"
+    curv = read_curv(fn)
+    @test size(curv) == (147886,)
+    
+end
+@testitem "test load_brain" begin
+    brain = load_brain("/mnt/Active/SEEG/subjects", "LNE_2021")
     @test size(brain.lh.vertices) == (147886, 3)
+    @test size(brain.lh.curv) == (147886,)
 end
